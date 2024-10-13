@@ -259,6 +259,7 @@ def handle_zwave_js_event(hass: HomeAssistant, config_entry: ConfigEntry, evt: E
                     if code_slot_name_state is not None
                     else ""
                 ),
+                ATTR_DATE_NOW: get_friendly_datetime(),
             },
         )
         return
