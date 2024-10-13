@@ -5,6 +5,7 @@ from datetime import timedelta
 import logging
 import os
 from typing import Dict, List, Optional, Tuple
+import time
 
 from homeassistant.components.automation import DOMAIN as AUTO_DOMAIN
 from homeassistant.components.input_boolean import DOMAIN as IN_BOOL_DOMAIN
@@ -39,6 +40,7 @@ from .const import (
     ATTR_ACTION_CODE,
     ATTR_ACTION_TEXT,
     ATTR_CODE_SLOT_NAME,
+    ATTR_DATE_NOW,
     ATTR_NAME,
     ATTR_NOTIFICATION_SOURCE,
     CHILD_LOCKS,
@@ -360,6 +362,7 @@ def handle_state_change(
                     if code_slot_name_state is not None
                     else ""
                 ),
+                ATTR_DATE_NOW: get_friendly_datetime(),
             },
         )
         return
@@ -424,3 +427,20 @@ async def async_reload_package_platforms(hass: HomeAssistant) -> bool:
         except ServiceNotFound:
             return False
     return True
+
+
+def snake_case_to_title_case(s: str) -> str:
+    """Converts string in snake_case to Title Case."""
+    # Capitalize the first letter of each word
+    sentence_str = [word.capitalize() for word in s.split("_")]
+    return " ".join(sentence_str)
+
+
+def get_friendly_datetime():
+    # Get the current time with timezone information
+    local_time = time.localtime()
+
+    # Format it in the required user-friendly way
+    friendly_time = time.strftime("%I:%M %p %B %d", local_time)
+
+    return friendly_time

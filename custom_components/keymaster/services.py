@@ -31,6 +31,7 @@ from .helpers import (
     output_to_file_from_template,
     reload_package_platforms,
     reset_code_slot_if_pin_unknown,
+    snake_case_to_title_case,
 )
 from .lock import KeymasterLock
 
@@ -241,6 +242,7 @@ def generate_package_files(hass: HomeAssistant, name: str) -> None:
     _LOGGER.debug("Creating common YAML files...")
     replacements = {
         "LOCKNAME": lockname,
+        "TITLE_CASE_LOCK_NAME": snake_case_to_title_case(lockname),
         "CASE_LOCK_NAME": lockname,
         "INPUTLOCKPINHEADER": inputlockpinheaders,
         "ACTIVELOCKHEADER": activelockheaders,
